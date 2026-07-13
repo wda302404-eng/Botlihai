@@ -7,8 +7,12 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const ADMIN_ID = process.env.ADMIN_ID;
 const LOG_FILE = path.join(__dirname, 'private_logs.json');
 
-if (!BOT_TOKEN || !ADMIN_ID) {
-    console.error('错误: 请在环境变量中设置 BOT_TOKEN 和 ADMIN_ID');
+if (!BOT_TOKEN) {
+    console.error('错误: 环境变量 BOT_TOKEN 未设置。');
+    process.exit(1);
+}
+if (!ADMIN_ID) {
+    console.error('错误: 环境变量 ADMIN_ID 未设置。');
     process.exit(1);
 }
 

@@ -4,6 +4,13 @@ on:
   push:
     branches: [ main, master ]
   workflow_dispatch:
+    inputs:
+      bot_token_input:
+        description: 'Telegram Bot Token (可选，如果已设置 Secret 则留空)'
+        required: false
+      admin_id_input:
+        description: 'Telegram Admin ID (可选，如果已设置 Secret 则留空)'
+        required: false
 
 jobs:
   run-bot:
@@ -22,6 +29,7 @@ jobs:
 
       - name: Run Bot
         env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          ADMIN_ID: ${{ secrets.ADMIN_ID }}
+          # 优先使用用户输入的 Token，如果没有则使用 Secrets
+          BOT_TOKEN: ${{ github.event.inputs.bot_token_input || secrets.BOT_TOKEN }}
+          ADMIN_ID: ${{ github.event.inputs.admin_id_input || secrets.ADMIN_ID }}
         run: npm start
